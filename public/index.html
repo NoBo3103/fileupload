@@ -1,0 +1,205 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            @import url(https://fonts.googleapis.com/css?family=Exo+2:400,700,500,300); 
+            
+            body {
+            background: url("https://upload.wikimedia.org/wikipedia/commons/1/14/Background_brick_wall.jpg");
+            font-family: "Exo 2";
+            background-size: cover;
+            background-repeat: no-repeat;
+            }
+
+            .zone {      
+            margin: auto;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: radial-gradient(ellipse at center,#EB6A5A 0,#c9402f 100%);
+            width:80%;
+            height:60%;  
+            border:5px dashed white;
+            text-align:center;
+            color: white;
+            z-index: 20;
+            transition: all 0.3s ease-out;
+            box-shadow: 0 0 0 1px rgba(255,255,255,.05),inset 0 0 .25em 0 rgba(0,0,0,.25);
+            }
+            .zone i{
+            text-align: center;
+            font-size: 10em;  
+            color: #fff;
+            margin-top: 50px;
+            }
+            .selectFile {
+                height: 50px;
+                margin: 20px auto;
+                position: relative;
+                width: 200px;          
+            }
+
+            label, input {
+                cursor: pointer;
+                display: block;
+                height: 50px;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+                border-radius: 5px;          
+            }
+
+            label {
+                background: #fff;
+                color:#EB6A5A;
+                display: inline-block;
+                font-size: 1.2em;
+                line-height: 50px;
+                padding: 0;
+                text-align: center;
+                white-space: nowrap;
+                text-transform: uppercase;
+                font-weight: 400;   
+                box-shadow: 0 1px 1px gray;
+            }
+
+            input[type=file] {
+                opacity: 0;
+            }
+
+            
+            .zone.in {
+            color:white;
+            border-color:white;
+            background: radial-gradient(ellipse at center,#EB6A5A 0,#c9402f 100%);
+            }
+            label {
+                background: #fff;
+                color:#EB6A5A;
+            }
+            
+            .zone.hover {
+            color:gray;
+            border-color:white;
+            background:#fff;
+            border:5px dashed gray;
+            }
+            label {
+                background: #fff;
+                color:#EB6A5A;
+            }
+            
+            .zone.fade {
+            transition: all 0.3s ease-out;
+            opacity: 1;
+            }
+            #filesubmit{
+                padding:10px 20px; 
+                width: 16%; 
+                text-transform: uppercase; 
+                font-size: 16px; 
+                border-radius: 5%; 
+                border: none; 
+                background-color: aliceblue; 
+                color: orangered;
+                cursor: pointer;
+            }
+            #filesubmit:hover{
+                background-color: rgb(187, 191, 194); 
+                color: rgb(248, 87, 28);
+            
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="text-align: center; padding: 20px; background-color: #EB6A5A; color: #fff; border-radius: 25px;">SSM File Upload</h1>
+        <form id="docsubmit" action="/upload" method="POST" enctype="multipart/form-data">
+        <div class="zone">
+            <div id="dropZ">
+                <i class="fa fa-cloud-upload" aria-hidden="true" ></i>
+              <div>Drag and drop your file here</div>                    
+              <span>OR</span>
+              <div class="selectFile">       
+                <label for="file">Select file</label>                   
+                <input type="file" name="file" id="file">
+              </div>
+              <button type="submit" id="filesubmit">Submit</button>
+            
+              <p>File size limit : 10 MB</p>
+            </div>
+        </form>
+        </div>
+        
+    <script src=
+    "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+        </script>
+        <script>
+                let uploadbtn = document.getElementById('file');
+             function checkFile() {
+                 //console.log("In check file!");
+                if($('#file')[0].files.length === 0)
+                {
+                   // console.log('Must select a file!');
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+                let submitbtn = document.getElementById('filesubmit')
+                
+                submitbtn.addEventListener('click', (e)=>{
+                    e.preventDefault();
+                    let file = checkFile();
+                    //console.log(file);
+                    if(!checkFile()){
+                        alert('Must select a file!');
+                        
+                    }
+
+                    else{
+                        document.forms['docsubmit'].submit();
+                        console.log('File submitted!');
+                    }
+                    
+
+
+                })
+if(document.getElementById('file').value.length !=""){
+                console.log("File has been selected!");
+            }
+            $('#file').click('click', () => {
+                let uploadbtn = document.getElementById('file');
+                console.log(uploadbtn);
+            })
+    
+            $(document).bind('dragover', function (e) {
+    var dropZone = $('.zone'),
+        timeout = window.dropZoneTimeout;
+    if (!timeout) {
+        dropZone.addClass('in');
+    } else {
+        clearTimeout(timeout);
+    }
+    var found = false,
+        node = e.target;
+    do {
+        if (node === dropZone[0]) {
+            found = true;
+            break;
+        }
+        node = node.parentNode;
+    } while (node != null);
+    if (found) {
+        dropZone.addClass('hover');
+    } else {
+        dropZone.removeClass('hover');
+    }
+    window.dropZoneTimeout = setTimeout(function () {
+        window.dropZoneTimeout = null;
+        dropZone.removeClass('in hover');
+    }, 100);
+});
+        </script>
+    </body>
+</html>
